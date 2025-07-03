@@ -13,7 +13,7 @@ public class StudentLeave extends JFrame implements ActionListener{
     JTextField rollField, textName, textReg, textSession, textTotalLeave, textLeaveReason, textPhone, textEmail;
     JDateChooser LeaveSD, LeaveED;
     JComboBox<String> comboApproval;
-    JButton searchRoll, submit, cancel;
+    JButton searchRoll, submit, print, cancel;
 
     StudentLeave(){
         setTitle("Apply Leave - DeptSync Manager");
@@ -96,6 +96,10 @@ public class StudentLeave extends JFrame implements ActionListener{
         LeaveED.setFont(new Font("Arial", Font.BOLD, 12));
         add(LeaveED);
 
+        //Auto calculate leave days
+        LeaveSD.getDateEditor().addPropertyChangeListener(evt -> calculateLeaveDays());
+        LeaveED.getDateEditor().addPropertyChangeListener(evt -> calculateLeaveDays());
+
         //Row 4
         JLabel lblTotalLeave = new JLabel("Total Number of Leave Days Requested");
         lblTotalLeave.setBounds(65, 280, 300, 30);
@@ -104,7 +108,7 @@ public class StudentLeave extends JFrame implements ActionListener{
 
         textTotalLeave = new JTextField();
         textTotalLeave.setBounds(370, 282, 200, 25);
-        textTotalLeave.setFont(new Font("Arial", Font.BOLD, 12));
+        textTotalLeave.setFont(new Font("Arial", Font.BOLD, 14));
         add(textTotalLeave);
 
         //Row 5
@@ -155,16 +159,23 @@ public class StudentLeave extends JFrame implements ActionListener{
         comboApproval.setFont(new Font("Arial", Font.BOLD, 12));
         add(comboApproval);
 
-        // Submit and Cancel Buttons
+        // Submit, Print and Cancel Buttons
         submit = new JButton("Submit");
-        submit.setBounds(300, 555, 120, 30);
+        submit.setBounds(245, 555, 120, 30);
         submit.setBackground(new Color(52, 40, 186));
         submit.setForeground(Color.WHITE);
         submit.addActionListener(this);
         add(submit);
 
+        print = new JButton("Print");
+        print.setBounds(385, 555, 120, 30);
+        print.setBackground(new Color(52, 40, 186));
+        print.setForeground(Color.WHITE);
+        print.addActionListener(this);
+        add(print);
+
         cancel = new JButton("Cancel");
-        cancel.setBounds(480, 555, 120, 30);
+        cancel.setBounds(525, 555, 120, 30);
         cancel.setBackground(new Color(52, 40, 186));
         cancel.setForeground(Color.WHITE);
         cancel.addActionListener(this);
@@ -179,6 +190,22 @@ public class StudentLeave extends JFrame implements ActionListener{
         add(imageLabel);
 
         setVisible(true);
+    }
+
+    private void calculateLeaveDays() {
+        try {
+            java.util.Date start = LeaveSD.getDate();
+            java.util.Date end = LeaveED.getDate();
+            if (start != null && end != null && !end.before(start)) {
+                long diff = end.getTime() - start.getTime();
+                long days = (diff / (1000 * 60 * 60 * 24)) + 1;
+                textTotalLeave.setText(String.valueOf(days));
+            } else {
+                textTotalLeave.setText("");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -201,7 +228,6 @@ public class StudentLeave extends JFrame implements ActionListener{
                 ex.printStackTrace();
             }
         }
-
         else if(e.getSource() == submit) {
             String Roll = rollField.getText();
             String Name = textName.getText();
@@ -221,16 +247,67 @@ public class StudentLeave extends JFrame implements ActionListener{
 
                 c.statement.executeUpdate(q);
                 JOptionPane.showMessageDialog(null, "Information submitted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
+                //setVisible(false);
             } catch(Exception ex) {
                 ex.printStackTrace();
             }
         }
-
+        else if (e.getSource() == print) {
+            printLeaveApplication();
+        }
         else {
             setVisible(false);
         }
     }
+
+    private void printLeaveApplication() {
+        String name = textName.getText();
+        String roll = rollField.getText();
+        String reg = textReg.getText();
+        String session = textSession.getText();
+        String startDate = ((JTextField) LeaveSD.getDateEditor().getUiComponent()).getText();
+        String endDate = ((JTextField) LeaveED.getDateEditor().getUiComponent()).getText();
+        String totalDays = textTotalLeave.getText();
+        String reason = textLeaveReason.getText();
+        String phone = textPhone.getText();
+        String email = textEmail.getText();
+        String status = (String) comboApproval.getSelectedItem();
+
+        JTextPane textPane = new JTextPane();
+        textPane.setContentType("text/html");
+
+        //HTML content for print
+        String html =
+                "<html><body style='font-family:Arial; padding-top:10px;'>" +
+                        "<div style='text-align:center;'>" +
+                        "<h1 style='font-size:16px; margin-bottom:5px;'>Leave Application Status</h1>" +
+                        "<h4 style='font-style:italic; color:gray; margin-top:0;'>Chairman Approval Copy</h4>" +
+                        "</div>" +
+                        "<div style='margin-top:15px; font-size:10px; text-align:left;'>" +
+                        "<p><b>Name:</b> " + name + "</p>" +
+                        "<p><b>Roll:</b> " + roll + "</p>" +
+                        "<p><b>Registration No:</b> " + reg + "</p>" +
+                        "<p><b>Session:</b> " + session + "</p>" +
+                        "<p><b>Leave Start Date:</b> " + startDate + "</p>" +
+                        "<p><b>Leave End Date:</b> " + endDate + "</p>" +
+                        "<p><b>Total Leave Days:</b> " + totalDays + "</p>" +
+                        "<p><b>Reason:</b> " + reason + "</p>" +
+                        "<p><b>Phone:</b> " + phone + "</p>" +
+                        "<p><b>Email:</b> " + email + "</p>" +
+                        "<br><p style='font-size:11px;'><b>Application Status:</b> " + status + "</p>" +
+                        "</div>" +
+                        "</body></html>";
+
+        textPane.setText(html);
+        textPane.setEditable(false);
+
+        try {
+            textPane.print();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         new StudentLeave();
     }
