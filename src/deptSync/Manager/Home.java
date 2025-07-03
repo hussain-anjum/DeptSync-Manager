@@ -124,7 +124,7 @@ public class Home extends JFrame implements ActionListener{
         //exam.setFont(new Font("Arial", Font.BOLD, 14));
         //mb.add(exam);
 
-        // Menu Items
+        //Menu Items
         //JMenuItem marks = new JMenuItem("Enter Marks", new ImageIcon(ClassLoader.getSystemResource("icon/enter mark.png")));
         //marks.setBackground(Color.WHITE);
         //marks.setFont(new Font("Arial", Font.BOLD, 12));
