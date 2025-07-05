@@ -10,6 +10,7 @@ public class UpdateTeacher extends JFrame implements ActionListener {
     JTextField textName, textTeacherID, teacherIdField, textNid, textDob, textAddress, textPhone, textEmail, textEducation, textExperience;
     JComboBox<String> comboDes;
     JButton searchTId, update, cancel;
+    String selectedTID;
 
     UpdateTeacher(){
         setTitle("Update Information - DeptSync Manager");
@@ -168,6 +169,11 @@ public class UpdateTeacher extends JFrame implements ActionListener {
 
         setVisible(true);
     }
+    public UpdateTeacher(String teacherID) {
+        this(); //Call the default constructor
+        this.selectedTID = teacherID;
+        fetchAndFillData(teacherID);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -214,6 +220,31 @@ public class UpdateTeacher extends JFrame implements ActionListener {
             }
         } else {
             setVisible(false);
+        }
+    }
+    private void fetchAndFillData(String tID) {
+        try {
+            Conn c = new Conn();
+            String query = "SELECT * FROM teacher WHERE Teacher_ID = ?";
+            PreparedStatement ps = c.connection.prepareStatement(query);
+            ps.setString(1, tID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                textName.setText(rs.getString("Name"));
+                textTeacherID.setText(rs.getString("Teacher_ID"));
+                comboDes.setSelectedItem(rs.getString("Designation"));
+                textNid.setText(rs.getString("NID"));
+                textDob.setText(rs.getString("Date_of_Birth"));
+                textAddress.setText(rs.getString("Address"));
+                textPhone.setText(rs.getString("Phone"));
+                textEmail.setText(rs.getString("Email"));
+                textEducation.setText(rs.getString("Education"));
+                textExperience.setText(rs.getString("Experience"));
+            } else {
+                JOptionPane.showMessageDialog(null, "No record found!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     public static void main(String[] args) {

@@ -153,7 +153,16 @@ public class StudentDetails extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         } else if (e.getSource() == update) {
-            // Future update implementation...........
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(null, "Please select a student record to update!", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            String selectedRoll = table.getValueAt(selectedRow, 8).toString(); //Column index for Roll
+            UpdateStudent updateStudent = new UpdateStudent();
+            updateStudent.rollField.setText(selectedRoll);
+            updateStudent.searchRoll.doClick();
+            setVisible(false);
         } else if (e.getSource() == add) {
             setVisible(false);
             new AddStudent();

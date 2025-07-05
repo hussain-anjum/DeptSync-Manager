@@ -127,7 +127,16 @@ public class TeacherDetails extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         } else if (e.getSource() == update) {
-            // Future update implementation...........
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(null, "Please select a teacher record to update!", "Warning", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            String selectedTID = table.getValueAt(selectedRow, 2).toString();
+            UpdateTeacher updateTeacher = new UpdateTeacher();
+            updateTeacher.teacherIdField.setText(selectedTID);
+            updateTeacher.searchTId.doClick();
+            setVisible(false);
         } else if (e.getSource() == add) {
             setVisible(false);
             new AddTeacher();
