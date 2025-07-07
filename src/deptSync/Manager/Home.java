@@ -118,22 +118,24 @@ public class Home extends JFrame implements ActionListener{
         studentLeaveDetails.addActionListener(this);
         leaveDetails.add(studentLeaveDetails);
 
-        //Examination ==>>
-        //JMenu exam = new JMenu("Examination");
-        //exam.setForeground(new Color(52, 40, 186));
-        //exam.setFont(new Font("Arial", Font.BOLD, 14));
-        //mb.add(exam);
+        //Notice ==>>
+        JMenu notice = new JMenu("Notice");
+        notice.setForeground(new Color(52, 40, 186));
+        notice.setFont(new Font("Arial", Font.BOLD, 14));
+        mb.add(notice);
 
         //Menu Items
-        //JMenuItem marks = new JMenuItem("Enter Marks", new ImageIcon(ClassLoader.getSystemResource("icon/enter mark.png")));
-        //marks.setBackground(Color.WHITE);
-        //marks.setFont(new Font("Arial", Font.BOLD, 12));
-        //exam.add(marks);
+        JMenuItem newNotice = new JMenuItem("Create Notice", new ImageIcon(ClassLoader.getSystemResource("icon/enter mark.png")));
+        newNotice.setBackground(Color.WHITE);
+        newNotice.setFont(new Font("Arial", Font.BOLD, 12));
+        newNotice.addActionListener(this);
+        notice.add(newNotice);
 
-        //JMenuItem semResult = new JMenuItem("Semester results", new ImageIcon(ClassLoader.getSystemResource("icon/sem results.png")));
-        //semResult.setBackground(Color.WHITE);
-        //semResult.setFont(new Font("Arial", Font.BOLD, 12));
-        //exam.add(semResult);
+        JMenuItem noticeInfo = new JMenuItem("Notice Details", new ImageIcon(ClassLoader.getSystemResource("icon/sem results.png")));
+        noticeInfo.setBackground(Color.WHITE);
+        noticeInfo.setFont(new Font("Arial", Font.BOLD, 12));
+        noticeInfo.addActionListener(this);
+        notice.add(noticeInfo);
 
         //Fee details ==>>
         JMenu fee = new JMenu("Fee Details");
@@ -266,6 +268,10 @@ public class Home extends JFrame implements ActionListener{
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        } else if (s.equals("Create Notice")) {
+            new Notice();
+        } else if (s.equals("Notice Details")) {
+            new NoticeDetails();
         }
     }
 

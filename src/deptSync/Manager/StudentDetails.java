@@ -11,7 +11,7 @@ public class StudentDetails extends JFrame implements ActionListener {
 
     JTextField rollField, sessionField;
     JTable table;
-    JButton searchRoll, searchSession, print, update, add, delete, cancel;
+    JButton searchRoll, searchSession, print, update, add, delete, cancel, refreshBtn;
 
     StudentDetails() {
         setTitle("View Information - DeptSync Manager");
@@ -67,35 +67,42 @@ public class StudentDetails extends JFrame implements ActionListener {
         add(js);
 
         print = new JButton("Print");
-        print.setBounds(250, 140, 80, 20);
+        print.setBounds(200, 140, 80, 20);
         print.setBackground(new Color(52, 40, 186));
         print.setForeground(Color.WHITE);
         print.addActionListener(this);
         add(print);
 
         update = new JButton("Update");
-        update.setBounds(350, 140, 80, 20);
+        update.setBounds(300, 140, 80, 20);
         update.setBackground(new Color(52, 40, 186));
         update.setForeground(Color.WHITE);
         update.addActionListener(this);
         add(update);
 
         add = new JButton("Add");
-        add.setBounds(450, 140, 80, 20);
+        add.setBounds(400, 140, 80, 20);
         add.setBackground(new Color(52, 40, 186));
         add.setForeground(Color.WHITE);
         add.addActionListener(this);
         add(add);
 
         delete = new JButton("Delete");
-        delete.setBounds(550, 140, 80, 20);
+        delete.setBounds(500, 140, 80, 20);
         delete.setBackground(Color.RED);
         delete.setForeground(Color.WHITE);
         delete.addActionListener(this);
         add(delete);
 
+        refreshBtn = new JButton("Refresh");
+        refreshBtn.setBounds(600, 140, 80, 20);
+        refreshBtn.setBackground(new Color(52, 40, 186));
+        refreshBtn.setForeground(Color.WHITE);
+        refreshBtn.addActionListener(this);
+        add(refreshBtn);
+
         cancel = new JButton("Cancel");
-        cancel.setBounds(650, 140, 80, 20);
+        cancel.setBounds(700, 140, 80, 20);
         cancel.setBackground(new Color(52, 40, 186));
         cancel.setForeground(Color.WHITE);
         cancel.addActionListener(this);
@@ -168,6 +175,8 @@ public class StudentDetails extends JFrame implements ActionListener {
             new AddStudent();
         } else if (e.getSource() == delete) {
             deleteRecord();
+        } else if (e.getSource() == refreshBtn) {
+            loadTableData();
         } else {
             setVisible(false);
         }

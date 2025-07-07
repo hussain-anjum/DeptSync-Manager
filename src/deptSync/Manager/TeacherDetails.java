@@ -11,7 +11,7 @@ public class TeacherDetails extends JFrame implements ActionListener {
 
     JTextField teacherIdField;
     JTable table;
-    JButton searchTId, print, update, add, delete, cancel;
+    JButton searchTId, print, update, add, delete, cancel, refreshBtn;
 
     TeacherDetails() {
         setTitle("View Information - DeptSync Manager");
@@ -77,8 +77,15 @@ public class TeacherDetails extends JFrame implements ActionListener {
         delete.addActionListener(this);
         add(delete);
 
+        refreshBtn = new JButton("Refresh");
+        refreshBtn.setBounds(420, 140, 80, 20);
+        refreshBtn.setBackground(new Color(52, 40, 186));
+        refreshBtn.setForeground(Color.WHITE);
+        refreshBtn.addActionListener(this);
+        add(refreshBtn);
+
         cancel = new JButton("Cancel");
-        cancel.setBounds(420, 140, 80, 20);
+        cancel.setBounds(520, 140, 80, 20);
         cancel.setBackground(new Color(52, 40, 186));
         cancel.setForeground(Color.WHITE);
         cancel.addActionListener(this);
@@ -142,6 +149,8 @@ public class TeacherDetails extends JFrame implements ActionListener {
             new AddTeacher();
         } else if (e.getSource() == delete) {
             deleteRecord();
+        } else if (e.getSource() == refreshBtn) {
+            loadTableData();
         } else {
             setVisible(false);
         }

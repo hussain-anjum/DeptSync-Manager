@@ -16,7 +16,7 @@ public class TeacherLeaveDetails extends JFrame implements ActionListener {
 
     JTextField teacherIdField;
     JTable table;
-    JButton searchTId, print, delete, cancel;
+    JButton searchTId, print, delete, cancel, refreshBtn;
 
     TeacherLeaveDetails(){
         setTitle("Leave Information - DeptSync Manager");
@@ -68,8 +68,15 @@ public class TeacherLeaveDetails extends JFrame implements ActionListener {
         delete.addActionListener(this);
         add(delete);
 
+        refreshBtn = new JButton("Refresh");
+        refreshBtn.setBounds(220, 140, 80, 20);
+        refreshBtn.setBackground(new Color(52, 40, 186));
+        refreshBtn.setForeground(Color.WHITE);
+        refreshBtn.addActionListener(this);
+        add(refreshBtn);
+
         cancel = new JButton("Cancel");
-        cancel.setBounds(220, 140, 80, 20);
+        cancel.setBounds(320, 140, 80, 20);
         cancel.setBackground(new Color(52, 40, 186));
         cancel.setForeground(Color.WHITE);
         cancel.addActionListener(this);
@@ -119,6 +126,8 @@ public class TeacherLeaveDetails extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == delete) {
             deleteRecord();
+        } else if (e.getSource() == refreshBtn) {
+            loadTableData();
         } else {
             setVisible(false);
         }

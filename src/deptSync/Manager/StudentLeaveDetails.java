@@ -16,7 +16,7 @@ public class StudentLeaveDetails extends JFrame implements ActionListener {
 
     JTextField rollField, sessionField;
     JTable table;
-    JButton searchRoll, searchSession, print, delete, cancel;
+    JButton searchRoll, searchSession, print, delete, cancel, refreshBtn;
 
     StudentLeaveDetails(){
         setTitle("Leave Information - DeptSync Manager");
@@ -72,21 +72,28 @@ public class StudentLeaveDetails extends JFrame implements ActionListener {
         add(js);
 
         print = new JButton("Print");
-        print.setBounds(350, 140, 80, 20);
+        print.setBounds(300, 140, 80, 20);
         print.setBackground(new Color(52, 40, 186));
         print.setForeground(Color.WHITE);
         print.addActionListener(this);
         add(print);
 
         delete = new JButton("Delete");
-        delete.setBounds(450, 140, 80, 20);
+        delete.setBounds(400, 140, 80, 20);
         delete.setBackground(Color.RED);
         delete.setForeground(Color.WHITE);
         delete.addActionListener(this);
         add(delete);
 
+        refreshBtn = new JButton("Refresh");
+        refreshBtn.setBounds(500, 140, 80, 20);
+        refreshBtn.setBackground(new Color(52, 40, 186));
+        refreshBtn.setForeground(Color.WHITE);
+        refreshBtn.addActionListener(this);
+        add(refreshBtn);
+
         cancel = new JButton("Cancel");
-        cancel.setBounds(550, 140, 80, 20);
+        cancel.setBounds(600, 140, 80, 20);
         cancel.setBackground(new Color(52, 40, 186));
         cancel.setForeground(Color.WHITE);
         cancel.addActionListener(this);
@@ -145,6 +152,8 @@ public class StudentLeaveDetails extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == delete) {
             deleteRecord();
+        } else if (e.getSource() == refreshBtn) {
+            loadTableData();
         } else {
             setVisible(false);
         }

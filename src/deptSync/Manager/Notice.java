@@ -17,7 +17,7 @@ public class Notice extends JFrame implements ActionListener {
         setTitle("Notice - DeptSync Manager");
         setSize(900, 700);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //setLayout(null);
 
         JLabel heading = new JLabel("- Create Notice -");
