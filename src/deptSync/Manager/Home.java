@@ -125,13 +125,13 @@ public class Home extends JFrame implements ActionListener{
         mb.add(notice);
 
         //Menu Items
-        JMenuItem newNotice = new JMenuItem("Create Notice", new ImageIcon(ClassLoader.getSystemResource("icon/enter mark.png")));
+        JMenuItem newNotice = new JMenuItem("Create Notice", new ImageIcon(ClassLoader.getSystemResource("icon/notice.png")));
         newNotice.setBackground(Color.WHITE);
         newNotice.setFont(new Font("Arial", Font.BOLD, 12));
         newNotice.addActionListener(this);
         notice.add(newNotice);
 
-        JMenuItem noticeInfo = new JMenuItem("Notice Details", new ImageIcon(ClassLoader.getSystemResource("icon/sem results.png")));
+        JMenuItem noticeInfo = new JMenuItem("Notice Details", new ImageIcon(ClassLoader.getSystemResource("icon/noticeDetails.png")));
         noticeInfo.setBackground(Color.WHITE);
         noticeInfo.setFont(new Font("Arial", Font.BOLD, 12));
         noticeInfo.addActionListener(this);
