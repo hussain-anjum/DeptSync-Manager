@@ -301,10 +301,17 @@ public class StudentLeave extends JFrame implements ActionListener{
         textPane.setText(html);
         textPane.setEditable(false);
 
-        try {
-            textPane.print();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        JScrollPane scrollPane = new JScrollPane(textPane);
+        scrollPane.setPreferredSize(new Dimension(600, 650));
+
+        int option = JOptionPane.showConfirmDialog(this, scrollPane, "📄 Leave Application Preview", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                textPane.print();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
