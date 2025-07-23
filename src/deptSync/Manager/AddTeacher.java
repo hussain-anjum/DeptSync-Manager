@@ -27,7 +27,7 @@ public class AddTeacher extends JFrame implements ActionListener {
         heading.setFont(new Font("Arial", Font.BOLD, 20));
         add(heading);
 
-        // Labels and Input Fields
+        //Labels and Input Fields
         String[] labels = {"Name", "Designation", "Teacher ID", "NID", "Date of Birth", "Address", "Phone", "Email", "Education", "Experience"};
         int x1 = 65, x2 = 500, y = 150, width = 120, height = 30;
         JTextField[] textFields = new JTextField[labels.length];
@@ -72,7 +72,7 @@ public class AddTeacher extends JFrame implements ActionListener {
             }
             if (i % 2 != 0) y += 50;
         }
-        // Submit and Cancel Buttons
+        //Submit and Cancel Buttons
         submit = new JButton("Submit");
         submit.setBounds(300, 450, 120, 30);
         submit.setBackground(new Color(52, 40, 186));
@@ -87,7 +87,7 @@ public class AddTeacher extends JFrame implements ActionListener {
         cancel.addActionListener(this);
         add(cancel);
 
-        // Background Image
+        //Background Image
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/add info background.png"));
         Image i2 = i1.getImage().getScaledInstance(900, 680, Image.SCALE_SMOOTH);
         ImageIcon i3 = new ImageIcon(i2);
@@ -100,30 +100,62 @@ public class AddTeacher extends JFrame implements ActionListener {
 
     private String generateTeacherID() {
         Random rand = new Random();
-        return "TID" + (1000 + rand.nextInt(9000)); // Generates TID1000-TID9999
+        return "TID" + (1000 + rand.nextInt(9000)); //Generates TID1000-TID9999
+    }
+
+    private void showError(String msg) {
+        JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == submit){
-            String Name = textName.getText();
+            String Name = textName.getText().trim();
             String Designation = (String) comboDes.getSelectedItem();
-            String Teacher_ID = textTeacherID.getText();
-            String NID = textNid.getText();
-            String Date_of_Birth = ((JTextField) cdob.getDateEditor().getUiComponent()).getText();
-            String Address = textAddress.getText();
-            String Phone = textPhone.getText();
-            String Email = textEmail.getText();
-            String Education = textEducation.getText();
-            String Experience = textExperience.getText();
-            try{
-                String q = "insert into teacher values('"+Name+"', '"+Designation+"','"+Teacher_ID+"','"+NID+"','"+Date_of_Birth+"','"+Address+"','"+Phone+"','"+Email+"','"+Education+"','"+Experience+"' )";
+            String Teacher_ID = textTeacherID.getText().trim();
+            String NID = textNid.getText().trim();
+            String Date_of_Birth = ((JTextField) cdob.getDateEditor().getUiComponent()).getText().trim();
+            String Address = textAddress.getText().trim();
+            String Phone = textPhone.getText().trim();
+            String Email = textEmail.getText().trim();
+            String Education = textEducation.getText().trim();
+            String Experience = textExperience.getText().trim();
+
+            //Required field check
+            if (Name.isEmpty() || Designation.isEmpty() || Teacher_ID.isEmpty() || NID.isEmpty() ||
+                    Date_of_Birth.isEmpty() || Address.isEmpty() || Phone.isEmpty() || Email.isEmpty() ||
+                    Education.isEmpty() || Experience.isEmpty()) {
+                showError("All fields must be filled!");
+                return;
+            }
+
+            //Validations
+            if (!Name.matches("[a-zA-Z\\s]+")) {
+                showError("Invalid Name! Only letters and spaces allowed.");
+                return;
+            }
+            if (!NID.matches("\\d+")) {
+                showError("Invalid NID! Only digits allowed.");
+                return;
+            }
+            if (!Phone.matches("\\d{11}")) {
+                showError("Invalid Phone! Must be 11 digits.");
+                return;
+            }
+            if (!Email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                showError("Invalid Email format!");
+                return;
+            }
+
+            //All passed then Insert into DB
+            try {
+                String q = "INSERT INTO teacher VALUES('" + Name + "', '" + Designation + "','" + Teacher_ID + "','" + NID + "','" + Date_of_Birth + "','" + Address + "','" + Phone + "','" + Email + "','" + Education + "','" + Experience + "')";
                 Conn c = new Conn();
                 c.statement.executeUpdate(q);
                 JOptionPane.showMessageDialog(null, "Information submitted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);
-            }catch(Exception E){
-                E.printStackTrace();
+            } catch(Exception ex){
+                ex.printStackTrace();
             }
         }else{
             setVisible(false);

@@ -43,7 +43,7 @@ public class TeacherDetails extends JFrame implements ActionListener {
         add(searchTId);
 
         table = new JTable();
-        loadTableData(); // Load table data
+        loadTableData(); //Load table data
 
         JScrollPane js = new JScrollPane(table);
         js.setBounds(0, 180, 1000, 600);
@@ -178,7 +178,7 @@ public class TeacherDetails extends JFrame implements ActionListener {
         }
     }
 
-    // Method to delete selected record
+    //Method to delete selected record
     private void deleteRecord() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {

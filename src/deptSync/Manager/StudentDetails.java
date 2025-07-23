@@ -60,7 +60,7 @@ public class StudentDetails extends JFrame implements ActionListener {
         add(searchSession);
 
         table = new JTable();
-        loadTableData(); // Load table data
+        loadTableData(); //Load table data
 
         JScrollPane js = new JScrollPane(table);
         js.setBounds(0, 180, 990, 600);
@@ -182,7 +182,7 @@ public class StudentDetails extends JFrame implements ActionListener {
         }
     }
 
-    // Search by Roll
+    //Search by Roll
     private void searchByRoll(String roll) {
         try {
             Conn c = new Conn();
@@ -201,7 +201,7 @@ public class StudentDetails extends JFrame implements ActionListener {
         }
     }
 
-    // Search by Session
+    //Search by Session
     private void searchBySession(String session) {
         try {
             Conn c = new Conn();
@@ -220,7 +220,7 @@ public class StudentDetails extends JFrame implements ActionListener {
         }
     }
 
-    // Method to delete selected record
+    //Method to delete selected record
     private void deleteRecord() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {

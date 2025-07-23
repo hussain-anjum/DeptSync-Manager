@@ -27,7 +27,7 @@ public class AddStudent extends JFrame implements ActionListener{
         heading.setFont(new Font("Arial", Font.BOLD, 20));
         add(heading);
 
-        // Labels and Input Fields
+        //Labels and Input Fields
         String[] labels = {"Name", "Degree", "Father’s Name", "Mother’s Name","Date of Birth","Admission Roll","Session","Registration No.","Roll","HSC Roll","HSC GPA", "Address", "Phone", "Email"};
         int x1 = 65, x2 = 500, y = 150, width = 120, height = 30;
         JTextField[] textFields = new JTextField[labels.length];
@@ -76,7 +76,7 @@ public class AddStudent extends JFrame implements ActionListener{
             }
             if (i % 2 != 0) y += 50;
         }
-        // Submit and Cancel Buttons
+        //Submit and Cancel Buttons
         submit = new JButton("Submit");
         submit.setBounds(300, 525, 120, 30);
         submit.setBackground(new Color(52, 40, 186));
@@ -91,7 +91,7 @@ public class AddStudent extends JFrame implements ActionListener{
         cancel.addActionListener(this);
         add(cancel);
 
-        // Background Image
+        //Background Image
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/add info background.png"));
         Image i2 = i1.getImage().getScaledInstance(900, 680, Image.SCALE_SMOOTH);
         ImageIcon i3 = new ImageIcon(i2);
@@ -104,34 +104,75 @@ public class AddStudent extends JFrame implements ActionListener{
     }
     private String generateReg() {
         Random rand = new Random();
-        return "10" + (100 + rand.nextInt(900)); // Generates 10100 to 10999
+        return "10" + (100 + rand.nextInt(900)); //Generates 10100 to 10999
+    }
+
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == submit){
-            String Name = textName.getText();
+        if (e.getSource() == submit) {
+            String Name = textName.getText().trim();
             String Degree = (String) comboDeg.getSelectedItem();
-            String Father_Name = textFatherName.getText();
-            String Mother_Name = textMotherName.getText();
-            String Date_of_Birth = ((JTextField) cdob.getDateEditor().getUiComponent()).getText();
-            String Admission_Roll = textAdmissionRoll.getText();
-            String Session = textSession.getText();
-            String Registration_No = textReg.getText();
-            String Roll = textRoll.getText();
-            String HSC_Roll = textHscRoll.getText();
-            String HSC_GPA = textHscGPA.getText();
-            String Address = textAddress.getText();
-            String Phone = textPhone.getText();
-            String Email = textEmail.getText();
-            try{
-                String q = "insert into student values('"+Name+"', '"+Degree+"','"+Father_Name+"','"+Mother_Name+"','"+Date_of_Birth+"', '"+Admission_Roll+"', '"+Session+"', '"+Registration_No+"', '"+Roll+"', '"+HSC_Roll+"', '"+HSC_GPA+"','"+Address+"','"+Phone+"','"+Email+"')";
+            String Father_Name = textFatherName.getText().trim();
+            String Mother_Name = textMotherName.getText().trim();
+            String Date_of_Birth = ((JTextField) cdob.getDateEditor().getUiComponent()).getText().trim();
+            String Admission_Roll = textAdmissionRoll.getText().trim();
+            String Session = textSession.getText().trim();
+            String Registration_No = textReg.getText().trim();
+            String Roll = textRoll.getText().trim();
+            String HSC_Roll = textHscRoll.getText().trim();
+            String HSC_GPA = textHscGPA.getText().trim();
+            String Address = textAddress.getText().trim();
+            String Phone = textPhone.getText().trim();
+            String Email = textEmail.getText().trim();
+
+            //Required field check
+            if (Name.isEmpty() || Degree.isEmpty() || Father_Name.isEmpty() || Mother_Name.isEmpty()
+                    || Date_of_Birth.isEmpty() || Admission_Roll.isEmpty() || Session.isEmpty()
+                    || Registration_No.isEmpty() || Roll.isEmpty() || HSC_Roll.isEmpty()
+                    || HSC_GPA.isEmpty() || Address.isEmpty() || Phone.isEmpty() || Email.isEmpty()) {
+                showError("All fields must be filled!");
+                return;
+            }
+
+            //Validations
+            if (!Name.matches("[a-zA-Z\\s]+")) {
+                showError("Invalid Name! Only letters and spaces allowed.");
+                return;
+            }
+            if (!Father_Name.matches("[a-zA-Z\\s]+")) {
+                showError("Invalid Father's Name! Only letters and spaces allowed.");
+                return;
+            }
+            if (!Mother_Name.matches("[a-zA-Z\\s]+")) {
+                showError("Invalid Mother's Name! Only letters and spaces allowed.");
+                return;
+            }
+            if (!Roll.matches("\\d+")) {
+                showError("Invalid Roll! Only digits allowed.");
+                return;
+            }
+            if (!Phone.matches("\\d{11}")) {
+                showError("Invalid Phone! Must be 11 digits only.");
+                return;
+            }
+            if (!Email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                showError("Invalid Email format!");
+                return;
+            }
+
+            //All passed then Insert into DB
+            try {
+                String q = "INSERT INTO student VALUES('" + Name + "', '" + Degree + "','" + Father_Name + "','" + Mother_Name + "','" + Date_of_Birth + "', '" + Admission_Roll + "', '" + Session + "', '" + Registration_No + "', '" + Roll + "', '" + HSC_Roll + "', '" + HSC_GPA + "','" + Address + "','" + Phone + "','" + Email + "')";
                 Conn c = new Conn();
                 c.statement.executeUpdate(q);
                 JOptionPane.showMessageDialog(null, "Information submitted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);
-            }catch(Exception E){
-                E.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         }else{
             setVisible(false);
