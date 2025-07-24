@@ -159,7 +159,7 @@ public class TeacherLeave extends JFrame implements ActionListener {
         comboApproval.setFont(new Font("Arial", Font.BOLD, 12));
         add(comboApproval);
 
-        // Submit, Print and Cancel Buttons
+        //Submit, Print and Cancel Buttons
         submit = new JButton("Submit");
         submit.setBounds(245, 555, 120, 30);
         submit.setBackground(new Color(52, 40, 186));
@@ -181,12 +181,12 @@ public class TeacherLeave extends JFrame implements ActionListener {
         cancel.addActionListener(this);
         add(cancel);
 
-        // Background Image
+        //Background Image
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/Details.png"));
         Image i2 = i1.getImage().getScaledInstance(900, 680, Image.SCALE_SMOOTH);
         ImageIcon i3 = new ImageIcon(i2);
         JLabel imageLabel = new JLabel(i3);
-        imageLabel.setBounds(0, 0, 900, 700); // Cover the full window
+        imageLabel.setBounds(0, 0, 900, 700); //Cover the full window
         add(imageLabel);
 
         setVisible(true);
@@ -211,7 +211,7 @@ public class TeacherLeave extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == searchTid) {
-            String tID = tIdField.getText();  // Get Roll entered by user
+            String tID = tIdField.getText();  //Get TID entered by user
             try {
                 Conn c = new Conn();
                 String query = "SELECT Name, Designation, NID FROM teacher WHERE Teacher_ID = '"+tID+"'";
@@ -229,25 +229,59 @@ public class TeacherLeave extends JFrame implements ActionListener {
             }
         }
         else if(e.getSource() == submit) {
-            String tID = tIdField.getText();
-            String Name = textName.getText();
-            String Designation = textDeg.getText();
-            String NID = textNid.getText();
-            String LeaveStart = ((JTextField) LeaveSD.getDateEditor().getUiComponent()).getText();
-            String LeaveEnd = ((JTextField) LeaveED.getDateEditor().getUiComponent()).getText();
-            String TotalLeave = textTotalLeave.getText();
-            String Reason = textLeaveReason.getText();
-            String Phone = textPhone.getText();
-            String Email = textEmail.getText();
+            String tID = tIdField.getText().trim();
+            String Name = textName.getText().trim();
+            String Designation = textDeg.getText().trim();
+            String NID = textNid.getText().trim();
+            String LeaveStart = ((JTextField) LeaveSD.getDateEditor().getUiComponent()).getText().trim();
+            String LeaveEnd = ((JTextField) LeaveED.getDateEditor().getUiComponent()).getText().trim();
+            String TotalLeave = textTotalLeave.getText().trim();
+            String Reason = textLeaveReason.getText().trim();
+            String Phone = textPhone.getText().trim();
+            String Email = textEmail.getText().trim();
             String Approval = (String) comboApproval.getSelectedItem();
 
+            //Validation Checks
+            if (tID.isEmpty() || Name.isEmpty() || Designation.isEmpty() || NID.isEmpty() ||
+                    LeaveStart.isEmpty() || LeaveEnd.isEmpty() || TotalLeave.isEmpty() || Reason.isEmpty() ||
+                    Phone.isEmpty() || Email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Name.matches("[a-zA-Z.\\s]+")) {
+                JOptionPane.showMessageDialog(this, "Invalid Name!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!NID.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "NID must contain digits only.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!TotalLeave.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Total Leave Days must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Phone.matches("\\d{11}")) {
+                JOptionPane.showMessageDialog(this, "Invalid Phone! Must be 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                JOptionPane.showMessageDialog(this, "Invalid Email format!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            //Proceed to submit
             try {
                 Conn c = new Conn();
-                String q = "INSERT INTO teacherLeave (TID, Name, Designation, Teacher_NID, Leave_Start, Leave_End, Total_Leave_Days, Reason, Phone, Email, Chairman_Approval) VALUES ('"+tID+"', '"+Name+"', '"+Designation+"', '"+NID+"', '"+LeaveStart+"', '"+LeaveEnd+"', '"+TotalLeave+"', '"+Reason+"', '"+Phone+"', '"+Email+"', '"+Approval+"')";
+                String q = "INSERT INTO teacherLeave (TID, Name, Designation, Teacher_NID, Leave_Start, Leave_End, Total_Leave_Days, Reason, Phone, Email, Chairman_Approval) " +
+                        "VALUES ('"+tID+"', '"+Name+"', '"+Designation+"', '"+NID+"', '"+LeaveStart+"', '"+LeaveEnd+"', '"+TotalLeave+"', '"+Reason+"', '"+Phone+"', '"+Email+"', '"+Approval+"')";
 
                 c.statement.executeUpdate(q);
-                JOptionPane.showMessageDialog(null, "Information submitted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                //setVisible(false);
+                JOptionPane.showMessageDialog(this, "Information submitted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
             } catch(Exception ex) {
                 ex.printStackTrace();
             }
