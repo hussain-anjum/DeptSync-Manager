@@ -84,19 +84,27 @@ public class Notice extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == save) {
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String date = sdf.format(noticeDate.getDate());
-                String text = textNotice.getText();
+                //Get Date directly first to check for null
+                java.util.Date selectedDate = noticeDate.getDate();
+                String text = textNotice.getText().trim();
 
-                if (text.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Notice text cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+                //Validation
+                if (selectedDate == null || text.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please select a Date and enter the Notice text before saving.",
+                            "Warning", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
+
+                //Format date and proceed to save
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String date = sdf.format(selectedDate);
 
                 Conn c = new Conn();
                 String q = "INSERT INTO notice (Date, Notice) VALUES ('" + date + "', '" + text + "')";
                 c.statement.executeUpdate(q);
-                JOptionPane.showMessageDialog(null, "Notice saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                JOptionPane.showMessageDialog(this, "Notice saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

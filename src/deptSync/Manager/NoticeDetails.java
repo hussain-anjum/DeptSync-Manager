@@ -87,13 +87,13 @@ public class NoticeDetails extends JFrame implements ActionListener {
         imageLabel.setBounds(0, 0, 900, 700);
         add(imageLabel);
 
-        // Mouse Listener for date selection from table
+        //Mouse Listener for date selection from table
         table.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
                     try {
-                        String selectedDateStr = table.getValueAt(selectedRow, 0).toString(); // assuming Date is in column 0
+                        String selectedDateStr = table.getValueAt(selectedRow, 0).toString(); //assuming Date is in column 0
                         java.util.Date date = new SimpleDateFormat("yyyy-MM-dd").parse(selectedDateStr);
                         noticeDate.setDate(date);
                     } catch (Exception ex) {
@@ -117,7 +117,7 @@ public class NoticeDetails extends JFrame implements ActionListener {
         }
     }
 
-    // Search by date
+    //Search by date
     private void searchByDate() {
         java.util.Date selectedDate = noticeDate.getDate();
         if (selectedDate != null) {
@@ -142,7 +142,7 @@ public class NoticeDetails extends JFrame implements ActionListener {
         }
     }
 
-    // Delete selected notice
+    //Delete selected notice
     private void deleteNotice() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {
@@ -150,7 +150,7 @@ public class NoticeDetails extends JFrame implements ActionListener {
             return;
         }
 
-        String dateToDelete = table.getValueAt(selectedRow, 0).toString(); // Assuming date column is 0
+        String dateToDelete = table.getValueAt(selectedRow, 0).toString(); //Assuming date column is 0
         int confirm = JOptionPane.showConfirmDialog(null, "Are you sure to delete this notice?", "Confirm", JOptionPane.YES_NO_OPTION);
 
         if (confirm == JOptionPane.YES_OPTION) {

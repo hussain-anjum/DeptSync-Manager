@@ -260,7 +260,7 @@ public class UpdateStudent extends JFrame implements ActionListener {
             //Field validation
             if (Name.isEmpty() || Father.isEmpty() || Mother.isEmpty() || Deg.isEmpty()
                     || Roll.isEmpty() || Address.isEmpty() || Phone.isEmpty() || Email.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 

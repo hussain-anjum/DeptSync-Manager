@@ -212,7 +212,7 @@ public class UpdateTeacher extends JFrame implements ActionListener {
             //Field validation
             if (Designation.isEmpty() || NID.isEmpty() || Address.isEmpty() || Phone.isEmpty()
                     || Email.isEmpty() || Education.isEmpty() || Experience.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 

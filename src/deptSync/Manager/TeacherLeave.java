@@ -245,7 +245,7 @@ public class TeacherLeave extends JFrame implements ActionListener {
             if (tID.isEmpty() || Name.isEmpty() || Designation.isEmpty() || NID.isEmpty() ||
                     LeaveStart.isEmpty() || LeaveEnd.isEmpty() || TotalLeave.isEmpty() || Reason.isEmpty() ||
                     Phone.isEmpty() || Email.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
