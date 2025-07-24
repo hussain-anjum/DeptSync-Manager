@@ -139,16 +139,16 @@ public class AddStudent extends JFrame implements ActionListener{
             }
 
             //Validations
-            if (!Name.matches("[a-zA-Z\\s]+")) {
-                showError("Invalid Name! Only letters and spaces allowed.");
+            if (!Name.matches("[a-zA-Z.\\s]+")) {
+                showError("Invalid Name!");
                 return;
             }
-            if (!Father_Name.matches("[a-zA-Z\\s]+")) {
-                showError("Invalid Father's Name! Only letters and spaces allowed.");
+            if (!Father_Name.matches("[a-zA-Z.\\s]+")) {
+                showError("Invalid Father's Name!");
                 return;
             }
-            if (!Mother_Name.matches("[a-zA-Z\\s]+")) {
-                showError("Invalid Mother's Name! Only letters and spaces allowed.");
+            if (!Mother_Name.matches("[a-zA-Z.\\s]+")) {
+                showError("Invalid Mother's Name!");
                 return;
             }
             if (!Roll.matches("\\d+")) {

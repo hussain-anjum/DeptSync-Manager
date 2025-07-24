@@ -159,7 +159,7 @@ public class UpdateTeacher extends JFrame implements ActionListener {
         cancel.addActionListener(this);
         add(cancel);
 
-        // Background Image
+        //Background Image
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/Details.png"));
         Image i2 = i1.getImage().getScaledInstance(900, 680, Image.SCALE_SMOOTH);
         ImageIcon i3 = new ImageIcon(i2);
@@ -202,18 +202,40 @@ public class UpdateTeacher extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == update) {
             String Designation = (String) comboDes.getSelectedItem();
-            String NID = textNid.getText();
-            String Address = textAddress.getText();
-            String Phone = textPhone.getText();
-            String Email = textEmail.getText();
-            String Education = textEducation.getText();
-            String Experience = textExperience.getText();
+            String NID = textNid.getText().trim();
+            String Address = textAddress.getText().trim();
+            String Phone = textPhone.getText().trim();
+            String Email = textEmail.getText().trim();
+            String Education = textEducation.getText().trim();
+            String Experience = textExperience.getText().trim();
 
+            //Field validation
+            if (Designation.isEmpty() || NID.isEmpty() || Address.isEmpty() || Phone.isEmpty()
+                    || Email.isEmpty() || Education.isEmpty() || Experience.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!NID.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Invalid NID! Only digits allowed.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Phone.matches("\\d{11}")) {
+                JOptionPane.showMessageDialog(this, "Invalid Phone! Must be 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                JOptionPane.showMessageDialog(this, "Invalid Email format!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            //Update if all valid
             try {
                 Conn c = new Conn();
-                String q = "update teacher set Designation='" + Designation + "', NID='" + NID + "', Address='" + Address + "', Phone='" + Phone + "', Email='" + Email + "', Education='" + Education + "', Experience='" + Experience + "' where Teacher_ID='" + textTeacherID.getText() + "'";
+                String q = "UPDATE teacher SET Designation='" + Designation + "', NID='" + NID + "', Address='" + Address + "', Phone='" + Phone + "', Email='" + Email + "', Education='" + Education + "', Experience='" + Experience + "' WHERE Teacher_ID='" + textTeacherID.getText() + "'";
                 c.statement.executeUpdate(q);
-                JOptionPane.showMessageDialog(null, "Information updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Information updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 //setVisible(false);
             } catch (Exception ex) {
                 ex.printStackTrace();

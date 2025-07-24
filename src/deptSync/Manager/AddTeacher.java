@@ -130,8 +130,8 @@ public class AddTeacher extends JFrame implements ActionListener {
             }
 
             //Validations
-            if (!Name.matches("[a-zA-Z\\s]+")) {
-                showError("Invalid Name! Only letters and spaces allowed.");
+            if (!Name.matches("[a-zA-Z.\\s]+")) {
+                showError("Invalid Name!");
                 return;
             }
             if (!NID.matches("\\d+")) {

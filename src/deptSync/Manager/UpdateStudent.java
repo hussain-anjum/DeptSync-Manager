@@ -205,7 +205,7 @@ public class UpdateStudent extends JFrame implements ActionListener {
         cancel.addActionListener(this);
         add(cancel);
 
-        // Background Image
+        //Background Image
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/Details.png"));
         Image i2 = i1.getImage().getScaledInstance(900, 680, Image.SCALE_SMOOTH);
         ImageIcon i3 = new ImageIcon(i2);
@@ -247,17 +247,59 @@ public class UpdateStudent extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         } else if (e.getSource() == update) {
+            String Name = textName.getText().trim();
+            String Father = textFatherName.getText().trim();
+            String Mother = textMotherName.getText().trim();
             String Deg = (String) comboDeg.getSelectedItem();
-            String Roll = textRoll.getText();
-            String Address = textAddress.getText();
-            String Phone = textPhone.getText();
-            String Email = textEmail.getText();
+            String Roll = textRoll.getText().trim();
+            String Address = textAddress.getText().trim();
+            String Phone = textPhone.getText().trim();
+            String Email = textEmail.getText().trim();
 
+
+            //Field validation
+            if (Name.isEmpty() || Father.isEmpty() || Mother.isEmpty() || Deg.isEmpty()
+                    || Roll.isEmpty() || Address.isEmpty() || Phone.isEmpty() || Email.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All fields must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Name.matches("[a-zA-Z.\\s]+")) {
+                JOptionPane.showMessageDialog(this, "Invalid Name! Only letters and spaces allowed.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Father.matches("[a-zA-Z.\\s]+")) {
+                JOptionPane.showMessageDialog(this, "Invalid Father's Name! Only letters and spaces allowed.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Mother.matches("[a-zA-Z.\\s]+")) {
+                JOptionPane.showMessageDialog(this, "Invalid Mother's Name! Only letters and spaces allowed.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Roll.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Invalid Roll! Only digits allowed.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Phone.matches("\\d{11}")) {
+                JOptionPane.showMessageDialog(this, "Invalid Phone! Must be 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!Email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+                JOptionPane.showMessageDialog(this, "Invalid Email format!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            //Update if all valid
             try {
                 Conn c = new Conn();
-                String q = "update student set Degree='" + Deg + "', Roll='" + Roll + "', Address='" + Address + "', Phone='" + Phone + "', Email='" + Email + "' where Roll='" + textRoll.getText() + "'";
+                String q = "UPDATE student SET Degree='" + Deg + "', Roll='" + Roll + "', Address='" + Address + "', Phone='" + Phone + "', Email='" + Email + "' WHERE Roll='" + textRoll.getText() + "'";
                 c.statement.executeUpdate(q);
-                JOptionPane.showMessageDialog(null, "Information updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Information updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 //setVisible(false);
             } catch (Exception ex) {
                 ex.printStackTrace();
