@@ -194,21 +194,21 @@ public class Home extends JFrame implements ActionListener{
         About.addActionListener(this);
         about.add(About);
 
-        //Exit ==>>
-        JMenu exit = new JMenu("Exit");
+        //Log out ==>>
+        JMenu exit = new JMenu("Log out");
         exit.setForeground(new Color(52, 40, 186));
         exit.setFont(new Font("Arial", Font.BOLD, 14));
         mb.add(exit);
 
-        // Menu Items
-        JMenuItem Exit = new JMenuItem("", new ImageIcon(ClassLoader.getSystemResource("icon/exit.png")));
+        //Menu Items
+        JMenuItem Exit = new JMenuItem("Log out", new ImageIcon(ClassLoader.getSystemResource("icon/logout.png")));
         Exit.setBackground(Color.WHITE);
         Exit.setFont(new Font("Arial", Font.BOLD, 12));
         Exit.addActionListener(this);
         exit.add(Exit);
 
 
-        // Adding Hover Effect
+        //Adding Hover Effect
         UIManager.put("Menu.selectionBackground", new Color(70, 130, 180));
         UIManager.put("MenuItem.selectionBackground", new Color(70, 130, 180));
 
@@ -218,7 +218,7 @@ public class Home extends JFrame implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
-        if(s.equals("")){
+        if(s.equals("Log out")){
             System.exit(0);
         } else if (s.equals("Calculator")) {
             try{

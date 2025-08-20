@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class AddStudent extends JFrame implements ActionListener{
 
-    JTextField textName, textFatherName, textMotherName, textAdmissionRoll, textSession, textReg, textRoll, textHscRoll, textHscGPA, textAddress, textPhone, textEmail;
+    JTextField textName, textFatherName, textMotherName, textAdmissionRoll, textSession, textReg, textRoll, textPermanentAddress, textPresentAddress, textBloodGroup, textPhone, textEmail;
     JComboBox<String> comboDeg;
     JDateChooser cdob;
     JButton submit, cancel;
@@ -28,9 +28,14 @@ public class AddStudent extends JFrame implements ActionListener{
         add(heading);
 
         //Labels and Input Fields
-        String[] labels = {"Name", "Degree", "Father’s Name", "Mother’s Name","Date of Birth","Admission Roll","Session","Registration No.","Roll","HSC Roll","HSC GPA", "Address", "Phone", "Email"};
-        int x1 = 65, x2 = 500, y = 150, width = 120, height = 30;
-        JTextField[] textFields = new JTextField[labels.length];
+        String[] labels = {
+                "Student Name", "Degree", "Father’s Name", "Mother’s Name",
+                "Date of Birth","Admission Roll","Session","Registration No.",
+                "Roll","Permanent Address","Present Address","Blood Group",
+                "Phone","Email"
+        };
+
+        int x1 = 65, x2 = 480, y = 150, width = 160, height = 30;
 
         for (int i = 0; i < labels.length; i++) {
             JLabel lbl = new JLabel(labels[i]);
@@ -41,41 +46,42 @@ public class AddStudent extends JFrame implements ActionListener{
             if (labels[i].equals("Degree")) {
                 String[] degree = {"BSc.(Engg.)", "MSc."};
                 comboDeg = new JComboBox<>(degree);
-                comboDeg.setBounds((i % 2 == 0 ? x1 : x2) + 130, y + 2, 200, 25);
+                comboDeg.setBounds((i % 2 == 0 ? x1 : x2) + 150, y + 2, 200, 25);
                 add(comboDeg);
             } else if (labels[i].equals("Date of Birth")) {
                 cdob = new JDateChooser();
-                cdob.setBounds((i % 2 == 0 ? x1 : x2) + 130, y + 2, 200, 25);
+                cdob.setBounds((i % 2 == 0 ? x1 : x2) + 150, y + 2, 200, 25);
                 cdob.setFont(new Font("Arial",Font.BOLD,12));
                 add(cdob);
             } else if (labels[i].equals("Registration No.")) {
                 textReg = new JTextField(generateReg());
-                textReg.setBounds((i % 2 == 0 ? x1 : x2) + 130, y + 2, 200, 25);
+                textReg.setBounds((i % 2 == 0 ? x1 : x2) + 150, y + 2, 200, 25);
                 textReg.setFont(new Font("Arial", Font.BOLD, 12));
                 textReg.setEditable(false);
                 add(textReg);
-            }else {
+            } else {
                 JTextField textField = new JTextField();
-                textField.setBounds((i % 2 == 0 ? x1 : x2) + 130, y + 2, 200, 25);
+                textField.setBounds((i % 2 == 0 ? x1 : x2) + 150, y + 2, 200, 25);
                 textField.setFont(new Font("Arial", Font.BOLD, 12));
                 add(textField);
 
                 switch (labels[i]) {
-                    case "Name" -> textName = textField;
+                    case "Student Name" -> textName = textField;
                     case "Father’s Name" -> textFatherName = textField;
                     case "Mother’s Name" -> textMotherName = textField;
                     case "Admission Roll" -> textAdmissionRoll = textField;
                     case "Session" -> textSession = textField;
                     case "Roll" -> textRoll = textField;
-                    case "HSC Roll" -> textHscRoll = textField;
-                    case "HSC GPA" -> textHscGPA = textField;
-                    case "Address" -> textAddress = textField;
+                    case "Permanent Address" -> textPermanentAddress = textField;
+                    case "Present Address" -> textPresentAddress = textField;
+                    case "Blood Group" -> textBloodGroup = textField;
                     case "Phone" -> textPhone = textField;
                     case "Email" -> textEmail = textField;
                 }
             }
             if (i % 2 != 0) y += 50;
         }
+
         //Submit and Cancel Buttons
         submit = new JButton("Submit");
         submit.setBounds(300, 525, 120, 30);
@@ -96,12 +102,13 @@ public class AddStudent extends JFrame implements ActionListener{
         Image i2 = i1.getImage().getScaledInstance(900, 680, Image.SCALE_SMOOTH);
         ImageIcon i3 = new ImageIcon(i2);
         JLabel imageLabel = new JLabel(i3);
-        imageLabel.setBounds(0, 0, 900, 700); // Cover the full window
+        imageLabel.setBounds(0, 0, 900, 700);
         add(imageLabel);
 
         setVisible(true);
 
     }
+
     private String generateReg() {
         Random rand = new Random();
         return "10" + (100 + rand.nextInt(900)); //Generates 10100 to 10999
@@ -123,17 +130,18 @@ public class AddStudent extends JFrame implements ActionListener{
             String Session = textSession.getText().trim();
             String Registration_No = textReg.getText().trim();
             String Roll = textRoll.getText().trim();
-            String HSC_Roll = textHscRoll.getText().trim();
-            String HSC_GPA = textHscGPA.getText().trim();
-            String Address = textAddress.getText().trim();
+            String Permanent_Address = textPermanentAddress.getText().trim();
+            String Present_Address = textPresentAddress.getText().trim();
+            String Blood_Group = textBloodGroup.getText().trim();
             String Phone = textPhone.getText().trim();
             String Email = textEmail.getText().trim();
 
             //Required field check
             if (Name.isEmpty() || Degree.isEmpty() || Father_Name.isEmpty() || Mother_Name.isEmpty()
                     || Date_of_Birth.isEmpty() || Admission_Roll.isEmpty() || Session.isEmpty()
-                    || Registration_No.isEmpty() || Roll.isEmpty() || HSC_Roll.isEmpty()
-                    || HSC_GPA.isEmpty() || Address.isEmpty() || Phone.isEmpty() || Email.isEmpty()) {
+                    || Registration_No.isEmpty() || Roll.isEmpty()
+                    || Permanent_Address.isEmpty() || Present_Address.isEmpty() || Blood_Group.isEmpty()
+                    || Phone.isEmpty() || Email.isEmpty()) {
                 showError("All fields must be filled!");
                 return;
             }
@@ -166,11 +174,11 @@ public class AddStudent extends JFrame implements ActionListener{
 
             //All passed then Insert into DB
             try {
-                String q = "INSERT INTO student VALUES('" + Name + "', '" + Degree + "','" + Father_Name + "','" + Mother_Name + "','" + Date_of_Birth + "', '" + Admission_Roll + "', '" + Session + "', '" + Registration_No + "', '" + Roll + "', '" + HSC_Roll + "', '" + HSC_GPA + "','" + Address + "','" + Phone + "','" + Email + "')";
+                String q = "INSERT INTO student VALUES('" + Name + "', '" + Degree + "','" + Father_Name + "','" + Mother_Name + "','" + Date_of_Birth + "', '" + Admission_Roll + "', '" + Session + "', '" + Registration_No + "', '" + Roll + "', '" + Permanent_Address + "','" + Present_Address + "','" + Blood_Group + "','" + Phone + "','" + Email + "')";
                 Conn c = new Conn();
                 c.statement.executeUpdate(q);
                 JOptionPane.showMessageDialog(null, "Information submitted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                setVisible(false);
+                //setVisible(false);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -178,6 +186,7 @@ public class AddStudent extends JFrame implements ActionListener{
             setVisible(false);
         }
     }
+
     public static void main(String[] args) {
         new AddStudent();
     }

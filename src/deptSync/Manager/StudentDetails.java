@@ -192,7 +192,7 @@ public class StudentDetails extends JFrame implements ActionListener {
             ResultSet resultSet = pstmt.executeQuery();
 
             if (!resultSet.isBeforeFirst()) {
-                JOptionPane.showMessageDialog(null, "No record found!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No record found!", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
                 table.setModel(DbUtils.resultSetToTableModel(resultSet));
             }
