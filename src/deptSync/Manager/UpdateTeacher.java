@@ -1,5 +1,6 @@
 package deptSync.Manager;
 
+import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,236 +8,203 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class UpdateTeacher extends JFrame implements ActionListener {
-    JTextField textName, textTeacherID, teacherIdField, textNid, textDob, textAddress, textPhone, textEmail, textEducation, textExperience;
-    JComboBox<String> comboDes;
-    JButton searchTId, update, cancel;
+    JTextField textName, textTeacherID, teacherIdField, teacherNameField, textNid, textPermanentAddress, textPresentAddress, textAccountNo, textPhone, textEmail, textEducation;
+    JComboBox<String> comboDes, comboBlood;
+    JDateChooser cjoin;
+    JButton searchTId, searchName, update, cancel;
     String selectedTID;
 
     UpdateTeacher(){
         setTitle("Update Information - DeptSync Manager");
-        setSize(900, 700);
+        setSize(950, 700);
         setLocationRelativeTo(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setLayout(null);
 
         JLabel heading = new JLabel("- Update Teacher Details -");
         heading.setBounds(320, 30, 500, 50);
         heading.setFont(new Font("Arial", Font.BOLD, 20));
         add(heading);
 
+        //Search by TID
         JLabel heading2 = new JLabel("Search by TID");
-        heading2.setBounds(65, 120, 120, 20);
+        heading2.setBounds(55, 120, 120, 20);
         heading2.setFont(new Font("Arial", Font.BOLD, 15));
         add(heading2);
 
         teacherIdField = new JTextField();
-        teacherIdField.setBounds(195, 120, 150, 20);
+        teacherIdField.setBounds(180, 120, 150, 20);
         teacherIdField.setFont(new Font("Arial", Font.BOLD, 12));
         add(teacherIdField);
 
         searchTId = new JButton("Search");
-        searchTId.setBounds(360, 119, 80, 20);
+        searchTId.setBounds(340, 119, 80, 20);
         searchTId.setBackground(new Color(52, 40, 186));
         searchTId.setForeground(Color.WHITE);
         searchTId.addActionListener(this);
         add(searchTId);
 
+        //Search by Name
+        JLabel heading3 = new JLabel("Search by Name");
+        heading3.setBounds(498, 120, 130, 20);
+        heading3.setFont(new Font("Arial", Font.BOLD, 15));
+        add(heading3);
 
-        JLabel lblName = new JLabel("Name*");
-        lblName.setBounds(65, 170, 120, 30);
-        lblName.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblName);
+        teacherNameField = new JTextField();
+        teacherNameField.setBounds(630, 120, 150, 20);
+        teacherNameField.setFont(new Font("Arial", Font.BOLD, 12));
+        add(teacherNameField);
 
-        textName = new JTextField();
-        textName.setBounds(195, 172, 200, 25);
-        textName.setFont(new Font("Arial", Font.BOLD, 12));
-        textName.setEditable(false);
-        add(textName);
+        searchName = new JButton("Search");
+        searchName.setBounds(790, 119, 80, 20);
+        searchName.setBackground(new Color(52, 40, 186));
+        searchName.setForeground(Color.WHITE);
+        searchName.addActionListener(this);
+        add(searchName);
 
-        JLabel lblDes = new JLabel("Designation");
-        lblDes.setBounds(500, 170, 120, 30);
-        lblDes.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblDes);
+        //Labels & Fields
+        String[] labels = {"Name*", "Designation", "Teacher ID*", "NID", "Joining Date", "Permanent Address*",
+                "Present Address", "Account No.", "Phone", "Email", "Education", "Blood Group*"};
 
-        String[] designations = {"Professor", "Associate Professor", "Assistant Professor", "Lecturer"};
-        comboDes = new JComboBox<>(designations);
-        comboDes.setBounds(630, 172, 200, 25);
-        add(comboDes);
+        int x1 = 55, x2 = 500, y = 170, width = 160, height = 30;
 
-        JLabel lblTID = new JLabel("Teacher ID*");
-        lblTID.setBounds(65, 220, 120, 30);
-        lblTID.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblTID);
+        for (int i = 0; i < labels.length; i++) {
+            JLabel lbl = new JLabel(labels[i]);
+            lbl.setBounds(i % 2 == 0 ? x1 : x2, y, width, height);
+            lbl.setFont(new Font("Arial", Font.BOLD, 15));
+            add(lbl);
 
-        textTeacherID = new JTextField();
-        textTeacherID.setBounds(195, 222, 200, 25);
-        textTeacherID.setFont(new Font("Arial", Font.BOLD, 12));
-        textTeacherID.setEditable(false);
-        add(textTeacherID);
+            if (labels[i].equals("Designation")) {
+                String[] designations = {"Professor", "Associate Professor", "Assistant Professor", "Lecturer"};
+                comboDes = new JComboBox<>(designations);
+                comboDes.setBounds((i % 2 == 0 ? x1 : x2) + 150, y + 2, 200, 25);
+                add(comboDes);
 
-        JLabel lblNid = new JLabel("NID");
-        lblNid.setBounds(500, 220, 120, 30);
-        lblNid.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblNid);
+            } else if (labels[i].equals("Teacher ID*")) {
+                textTeacherID = new JTextField();
+                textTeacherID.setBounds((i % 2 == 0 ? x1 : x2) + 150, y + 2, 200, 25);
+                textTeacherID.setFont(new Font("Arial", Font.BOLD, 12));
+                textTeacherID.setEditable(false);
+                add(textTeacherID);
 
-        textNid = new JTextField();
-        textNid.setBounds(630, 222, 200, 25);
-        textNid.setFont(new Font("Arial", Font.BOLD, 12));
-        add(textNid);
+            } else if (labels[i].equals("Joining Date")) {
+                cjoin = new JDateChooser();
+                cjoin.setBounds((i % 2 == 0 ? x1 : x2) + 150, y + 2, 200, 25);
+                cjoin.setFont(new Font("Arial",Font.BOLD,12));
+                add(cjoin);
 
-        JLabel lblDOB = new JLabel("Date of Birth*");
-        lblDOB.setBounds(65, 270, 120, 30);
-        lblDOB.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblDOB);
+            } else if (labels[i].equals("Blood Group*")) {
+                String[] bloodGroups = {"A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"};
+                comboBlood = new JComboBox<>(bloodGroups);
+                comboBlood.setBounds((i % 2 == 0 ? x1 : x2) + 150, y + 2, 200, 25);
+                comboBlood.setEnabled(false);
+                add(comboBlood);
 
-        textDob = new JTextField();
-        textDob.setBounds(195, 272, 200, 25);
-        textDob.setFont(new Font("Arial", Font.BOLD, 12));
-        textDob.setEditable(false);
-        add(textDob);
+            } else {
+                JTextField textField = new JTextField();
+                textField.setBounds((i % 2 == 0 ? x1 : x2) + 150, y + 2, 200, 25);
+                textField.setFont(new Font("Arial", Font.BOLD, 12));
+                add(textField);
 
-        JLabel lblAddress = new JLabel("Address");
-        lblAddress.setBounds(500, 270, 120, 30);
-        lblAddress.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblAddress);
-
-        textAddress = new JTextField();
-        textAddress.setBounds(630, 272, 200, 25);
-        textAddress.setFont(new Font("Arial", Font.BOLD, 12));
-        add(textAddress);
-
-        JLabel lblPhone = new JLabel("Phone");
-        lblPhone.setBounds(65, 320, 120, 30);
-        lblPhone.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblPhone);
-
-        textPhone = new JTextField();
-        textPhone.setBounds(195, 322, 200, 25);
-        textPhone.setFont(new Font("Arial", Font.BOLD, 12));
-        add(textPhone);
-
-        JLabel lblEmail = new JLabel("Email");
-        lblEmail.setBounds(500, 320, 120, 30);
-        lblEmail.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblEmail);
-
-        textEmail = new JTextField();
-        textEmail.setBounds(630, 322, 200, 25);
-        textEmail.setFont(new Font("Arial", Font.BOLD, 12));
-        add(textEmail);
-
-        JLabel lblEducation = new JLabel("Education");
-        lblEducation.setBounds(65, 370, 120, 30);
-        lblEducation.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblEducation);
-
-        textEducation = new JTextField();
-        textEducation.setBounds(195, 372, 200, 25);
-        textEducation.setFont(new Font("Arial", Font.BOLD, 12));
-        add(textEducation);
-
-        JLabel lblExperience = new JLabel("Experience");
-        lblExperience.setBounds(500, 370, 120, 30);
-        lblExperience.setFont(new Font("Arial", Font.BOLD, 15));
-        add(lblExperience);
-
-        textExperience = new JTextField();
-        textExperience.setBounds(630, 372, 200, 25);
-        textExperience.setFont(new Font("Arial", Font.BOLD, 12));
-        add(textExperience);
+                switch (labels[i]) {
+                    case "Name*" -> { textName = textField; textName.setEditable(false); }
+                    case "NID" -> textNid = textField;
+                    case "Permanent Address*" -> { textPermanentAddress = textField; textPermanentAddress.setEditable(false); }
+                    case "Present Address" -> textPresentAddress = textField;
+                    case "Account No." -> textAccountNo = textField;
+                    case "Phone" -> textPhone = textField;
+                    case "Email" -> textEmail = textField;
+                    case "Education" -> textEducation = textField;
+                }
+            }
+            if (i % 2 != 0) y += 50;
+        }
 
         update = new JButton("Update");
-        update.setBounds(300, 470, 120, 30);
+        update.setBounds(300, 525, 120, 30);
         update.setBackground(new Color(52, 40, 186));
         update.setForeground(Color.WHITE);
         update.addActionListener(this);
         add(update);
 
         cancel = new JButton("Cancel");
-        cancel.setBounds(480, 470, 120, 30);
+        cancel.setBounds(480, 525, 120, 30);
         cancel.setBackground(new Color(52, 40, 186));
         cancel.setForeground(Color.WHITE);
         cancel.addActionListener(this);
         add(cancel);
 
-        //Background Image
+        // Background
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/Details.png"));
-        Image i2 = i1.getImage().getScaledInstance(900, 680, Image.SCALE_SMOOTH);
+        Image i2 = i1.getImage().getScaledInstance(950, 680, Image.SCALE_SMOOTH);
         ImageIcon i3 = new ImageIcon(i2);
         JLabel imageLabel = new JLabel(i3);
-        imageLabel.setBounds(0, 0, 900, 700);
+        imageLabel.setBounds(0, 0, 950, 700);
         add(imageLabel);
 
         setVisible(true);
     }
+
     public UpdateTeacher(String teacherID) {
-        this(); //Call the default constructor
+        this();
         this.selectedTID = teacherID;
-        fetchAndFillData(teacherID);
+        fetchAndFillData("Teacher_ID", teacherID);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == searchTId) {
             String tID = teacherIdField.getText();
-            try {
-                Conn c = new Conn();
-                String query = "SELECT * FROM teacher WHERE Teacher_ID = '" + tID + "'";
-                ResultSet rs = c.statement.executeQuery(query);
-                if (rs.next()) {
-                    textName.setText(rs.getString("Name"));
-                    textTeacherID.setText(rs.getString("Teacher_ID"));
-                    comboDes.setSelectedItem(rs.getString("Designation"));
-                    textNid.setText(rs.getString("NID"));
-                    textDob.setText(rs.getString("Date_of_Birth"));
-                    textAddress.setText(rs.getString("Address"));
-                    textPhone.setText(rs.getString("Phone"));
-                    textEmail.setText(rs.getString("Email"));
-                    textEducation.setText(rs.getString("Education"));
-                    textExperience.setText(rs.getString("Experience"));
-                } else {
-                    JOptionPane.showMessageDialog(null, "No record found!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+            fetchAndFillData("Teacher_ID", tID);
+
+        } else if (e.getSource() == searchName) {
+            String tName = teacherNameField.getText();
+            fetchAndFillData("Name", tName);
+
         } else if (e.getSource() == update) {
             String Designation = (String) comboDes.getSelectedItem();
             String NID = textNid.getText().trim();
-            String Address = textAddress.getText().trim();
+            String Joining_Date = ((JTextField) cjoin.getDateEditor().getUiComponent()).getText().trim();
+            String Permanent_Address = textPermanentAddress.getText().trim();
+            String Present_Address = textPresentAddress.getText().trim();
+            String Account_No = textAccountNo.getText().trim();
             String Phone = textPhone.getText().trim();
             String Email = textEmail.getText().trim();
             String Education = textEducation.getText().trim();
-            String Experience = textExperience.getText().trim();
+            String Blood_Group = (String) comboBlood.getSelectedItem();
 
-            //Field validation
-            if (Designation.isEmpty() || NID.isEmpty() || Address.isEmpty() || Phone.isEmpty()
-                    || Email.isEmpty() || Education.isEmpty() || Experience.isEmpty()) {
+            if (Designation.isEmpty() || NID.isEmpty() || Joining_Date.isEmpty() || Permanent_Address.isEmpty() ||
+                    Present_Address.isEmpty() || Account_No.isEmpty() || Phone.isEmpty() ||
+                    Email.isEmpty() || Education.isEmpty() || Blood_Group.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "All fields must be filled!", "Warning", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
+            // Validations
             if (!NID.matches("\\d+")) {
                 JOptionPane.showMessageDialog(this, "Invalid NID! Only digits allowed.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
             if (!Phone.matches("\\d{11}")) {
                 JOptionPane.showMessageDialog(this, "Invalid Phone! Must be 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
             if (!Email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
                 JOptionPane.showMessageDialog(this, "Invalid Email format!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            //Update if all valid
+            if (!Account_No.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Invalid Account No! Only digits allowed.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             try {
                 Conn c = new Conn();
-                String q = "UPDATE teacher SET Designation='" + Designation + "', NID='" + NID + "', Address='" + Address + "', Phone='" + Phone + "', Email='" + Email + "', Education='" + Education + "', Experience='" + Experience + "' WHERE Teacher_ID='" + textTeacherID.getText() + "'";
+                String q = "UPDATE teacher SET Designation='" + Designation + "', NID='" + NID + "', Joining_Date='" + Joining_Date +
+                        "', Permanent_Address='" + Permanent_Address + "', Present_Address='" + Present_Address + "', Account_No='" + Account_No +
+                        "', Phone='" + Phone + "', Email='" + Email + "', Education='" + Education +
+                        "' WHERE Teacher_ID='" + textTeacherID.getText() + "'";
                 c.statement.executeUpdate(q);
                 JOptionPane.showMessageDialog(this, "Information updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                //setVisible(false);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -244,24 +212,27 @@ public class UpdateTeacher extends JFrame implements ActionListener {
             setVisible(false);
         }
     }
-    private void fetchAndFillData(String tID) {
+
+    private void fetchAndFillData(String field, String value) {
         try {
             Conn c = new Conn();
-            String query = "SELECT * FROM teacher WHERE Teacher_ID = ?";
+            String query = "SELECT * FROM teacher WHERE " + field + " = ?";
             PreparedStatement ps = c.connection.prepareStatement(query);
-            ps.setString(1, tID);
+            ps.setString(1, value);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 textName.setText(rs.getString("Name"));
                 textTeacherID.setText(rs.getString("Teacher_ID"));
                 comboDes.setSelectedItem(rs.getString("Designation"));
                 textNid.setText(rs.getString("NID"));
-                textDob.setText(rs.getString("Date_of_Birth"));
-                textAddress.setText(rs.getString("Address"));
+                ((JTextField) cjoin.getDateEditor().getUiComponent()).setText(rs.getString("Joining_Date"));
+                textPermanentAddress.setText(rs.getString("Permanent_Address"));
+                textPresentAddress.setText(rs.getString("Present_Address"));
+                textAccountNo.setText(rs.getString("Account_No"));
                 textPhone.setText(rs.getString("Phone"));
                 textEmail.setText(rs.getString("Email"));
                 textEducation.setText(rs.getString("Education"));
-                textExperience.setText(rs.getString("Experience"));
+                comboBlood.setSelectedItem(rs.getString("Blood_Group"));
             } else {
                 JOptionPane.showMessageDialog(null, "No record found!");
             }
@@ -269,6 +240,7 @@ public class UpdateTeacher extends JFrame implements ActionListener {
             e.printStackTrace();
         }
     }
+
     public static void main(String[] args) {
         new UpdateTeacher();
     }
