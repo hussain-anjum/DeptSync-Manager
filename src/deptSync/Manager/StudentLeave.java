@@ -323,16 +323,16 @@ public class StudentLeave extends JFrame implements ActionListener{
                         "<h4 style='font-style:italic; color:gray; margin-top:0;'>Chairman Approval Copy</h4>" +
                         "</div>" +
                         "<div style='margin-top:20px; font-size:10px; text-align:left;'>" +
-                        "<p><b>Name:</b> " + name + "</p>" +
-                        "<p><b>Roll:</b> " + roll + "</p>" +
-                        "<p><b>Registration No:</b> " + reg + "</p>" +
-                        "<p><b>Session:</b> " + session + "</p>" +
-                        "<p><b>Leave Start Date:</b> " + startDate + "</p>" +
-                        "<p><b>Leave End Date:</b> " + endDate + "</p>" +
-                        "<p><b>Total Leave Days:</b> " + totalDays + "</p>" +
-                        "<p><b>Reason:</b> " + reason + "</p>" +
-                        "<p><b>Phone:</b> " + phone + "</p>" +
-                        "<p><b>Email:</b> " + email + "</p>" +
+                        "<p><b>1. Name:</b> " + name + "</p>" +
+                        "<p><b>2. Roll:</b> " + roll + "</p>" +
+                        "<p><b>3. Registration No:</b> " + reg + "</p>" +
+                        "<p><b>4. Session:</b> " + session + "</p>" +
+                        "<p><b>5. Leave Start Date:</b> " + startDate + "</p>" +
+                        "<p><b>6. Leave End Date:</b> " + endDate + "</p>" +
+                        "<p><b>7. Total Leave Days:</b> " + totalDays + "</p>" +
+                        "<p><b>8. Reason:</b> " + reason + "</p>" +
+                        "<p><b>9. Phone:</b> " + phone + "</p>" +
+                        "<p><b>10. Email:</b> " + email + "</p>" +
                         "<br><p style='font-size:11px; font-style:italic;'><b>Application Status:</b> " + status + "</p>" +
                         "</div>" +
                         "</body></html>";
