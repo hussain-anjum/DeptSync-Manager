@@ -319,10 +319,10 @@ public class StudentLeave extends JFrame implements ActionListener{
         String html =
                 "<html><body style='font-family:Arial; padding-top:10px;'>" +
                         "<div style='text-align:center;'>" +
-                        "<h1 style='font-size:16px; margin-bottom:5px;'>Leave Application Status</h1>" +
+                        "<h1 style='font-size:16px; margin-bottom:4px;'>Leave Application Status</h1>" +
                         "<h4 style='font-style:italic; color:gray; margin-top:0;'>Chairman Approval Copy</h4>" +
                         "</div>" +
-                        "<div style='margin-top:15px; font-size:10px; text-align:left;'>" +
+                        "<div style='margin-top:20px; font-size:10px; text-align:left;'>" +
                         "<p><b>Name:</b> " + name + "</p>" +
                         "<p><b>Roll:</b> " + roll + "</p>" +
                         "<p><b>Registration No:</b> " + reg + "</p>" +
@@ -333,7 +333,7 @@ public class StudentLeave extends JFrame implements ActionListener{
                         "<p><b>Reason:</b> " + reason + "</p>" +
                         "<p><b>Phone:</b> " + phone + "</p>" +
                         "<p><b>Email:</b> " + email + "</p>" +
-                        "<br><p style='font-size:11px;'><b>Application Status:</b> " + status + "</p>" +
+                        "<br><p style='font-size:11px; font-style:italic;'><b>Application Status:</b> " + status + "</p>" +
                         "</div>" +
                         "</body></html>";
 

@@ -188,7 +188,7 @@ public class Home extends JFrame implements ActionListener{
         mb.add(about);
 
         // Menu Items
-        JMenuItem About = new JMenuItem("Department of CSE", new ImageIcon(ClassLoader.getSystemResource("icon/logo icon.png")));
+        JMenuItem About = new JMenuItem("About the Project", new ImageIcon(ClassLoader.getSystemResource("icon/logo icon.png")));
         About.setBackground(Color.WHITE);
         About.setFont(new Font("Arial", Font.BOLD, 12));
         About.addActionListener(this);
@@ -250,7 +250,7 @@ public class Home extends JFrame implements ActionListener{
             new TeacherLeave();
         } else if (s.equals("Student's Leave")) {
             new StudentLeave();
-        } else if (s.equals("Department of CSE")) {
+        } else if (s.equals("About the Project")) {
             new About();
         } else if (s.equals("Teacher's Leave Details")) {
             new TeacherLeaveDetails();

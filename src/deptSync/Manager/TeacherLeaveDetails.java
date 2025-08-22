@@ -14,9 +14,9 @@ import java.sql.SQLException;
 
 public class TeacherLeaveDetails extends JFrame implements ActionListener {
 
-    JTextField teacherIdField;
+    JTextField teacherIdField, teacherNameField;
     JTable table;
-    JButton searchTId, print, delete, cancel, refreshBtn;
+    JButton searchTId, searchName, print, delete, cancel, refreshBtn;
 
     TeacherLeaveDetails(){
         setTitle("Leave Information - DeptSync Manager");
@@ -31,52 +31,69 @@ public class TeacherLeaveDetails extends JFrame implements ActionListener {
         add(heading);
 
         JLabel heading2 = new JLabel("Search by TID");
-        heading2.setBounds(20, 98, 120, 20);
+        heading2.setBounds(80, 98, 120, 20);
         heading2.setFont(new Font("Arial", Font.BOLD, 15));
         add(heading2);
 
         teacherIdField = new JTextField();
-        teacherIdField.setBounds(150, 98, 150, 20);
+        teacherIdField.setBounds(200, 98, 150, 20);
         teacherIdField.setFont(new Font("Arial", Font.BOLD, 12));
         add(teacherIdField);
 
         searchTId = new JButton("Search");
-        searchTId.setBounds(320, 98, 80, 20);
+        searchTId.setBounds(360, 98, 80, 20);
         searchTId.setBackground(new Color(52, 40, 186));
         searchTId.setForeground(Color.WHITE);
         searchTId.addActionListener(this);
         add(searchTId);
 
+        JLabel heading3 = new JLabel("Search by Name");
+        heading3.setBounds(520, 98, 130, 20);
+        heading3.setFont(new Font("Arial", Font.BOLD, 15));
+        add(heading3);
+
+        teacherNameField = new JTextField();
+        teacherNameField.setBounds(650, 98, 150, 20);
+        teacherNameField.setFont(new Font("Arial", Font.BOLD, 12));
+        add(teacherNameField);
+
+        searchName = new JButton("Search");
+        searchName.setBounds(810, 98, 80, 20);
+        searchName.setBackground(new Color(52, 40, 186));
+        searchName.setForeground(Color.WHITE);
+        searchName.addActionListener(this);
+        add(searchName);
+
         table = new JTable();
-        loadTableData(); // Load table data
+        loadTableData(); //Load table data
 
         JScrollPane js = new JScrollPane(table);
         js.setBounds(0, 180, 990, 600);
         add(js);
 
         print = new JButton("Print");
-        print.setBounds(20, 140, 80, 20);
+        print.setBounds(300, 140, 80, 20);
         print.setBackground(new Color(52, 40, 186));
         print.setForeground(Color.WHITE);
         print.addActionListener(this);
         add(print);
 
         delete = new JButton("Delete");
-        delete.setBounds(120, 140, 80, 20);
+        delete.setBounds(400, 140, 80, 20);
         delete.setBackground(Color.RED);
         delete.setForeground(Color.WHITE);
         delete.addActionListener(this);
         add(delete);
 
         refreshBtn = new JButton("Refresh");
-        refreshBtn.setBounds(220, 140, 80, 20);
+        refreshBtn.setBounds(500, 140, 80, 20);
         refreshBtn.setBackground(new Color(52, 40, 186));
         refreshBtn.setForeground(Color.WHITE);
         refreshBtn.addActionListener(this);
         add(refreshBtn);
 
         cancel = new JButton("Cancel");
-        cancel.setBounds(320, 140, 80, 20);
+        cancel.setBounds(600, 140, 80, 20);
         cancel.setBackground(new Color(52, 40, 186));
         cancel.setForeground(Color.WHITE);
         cancel.addActionListener(this);
@@ -96,6 +113,7 @@ public class TeacherLeaveDetails extends JFrame implements ActionListener {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
                     teacherIdField.setText(table.getValueAt(selectedRow, 0).toString());
+                    teacherNameField.setText(table.getValueAt(selectedRow, 1).toString());
                 }
             }
         });
@@ -118,6 +136,8 @@ public class TeacherLeaveDetails extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == searchTId) {
             searchByTID();
+        } else if (e.getSource() == searchName) {
+            searchByName();
         } else if (e.getSource() == print) {
             try {
                 table.print();
@@ -155,7 +175,29 @@ public class TeacherLeaveDetails extends JFrame implements ActionListener {
         }
     }
 
-    // Method to delete selected record
+    //Search by Name
+    private void searchByName() {
+        String name = teacherNameField.getText().trim();
+        if (!name.isEmpty()) {
+            try {
+                Conn c = new Conn();
+                String q = "SELECT * FROM teacherLeave WHERE name LIKE ?";
+                PreparedStatement pstmt = c.connection.prepareStatement(q);
+                pstmt.setString(1, "%" + name + "%");
+                ResultSet resultSet = pstmt.executeQuery();
+
+                if (!resultSet.isBeforeFirst()) {
+                    JOptionPane.showMessageDialog(null, "No record found!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    table.setModel(DbUtils.resultSetToTableModel(resultSet));
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    //Method to delete selected record
     private void deleteRecord() {
         int selectedRow = table.getSelectedRow();
         if (selectedRow == -1) {

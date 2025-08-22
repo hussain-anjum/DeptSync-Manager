@@ -159,7 +159,7 @@ public class UpdateStudent extends JFrame implements ActionListener {
         textPresentAddress.setFont(new Font("Arial", Font.BOLD, 12));
         add(textPresentAddress);
 
-        JLabel lblBlood = new JLabel("Blood Group");
+        JLabel lblBlood = new JLabel("Blood Group*");
         lblBlood.setBounds(480, 420, 150, 30);
         lblBlood.setFont(new Font("Arial", Font.BOLD, 15));
         add(lblBlood);
