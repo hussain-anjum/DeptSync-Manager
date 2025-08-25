@@ -20,7 +20,7 @@ public class StudentLeave extends JFrame implements ActionListener{
         setSize(900, 700);
         setLocationRelativeTo(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setLayout(null);
+        setLayout(null);
 
         JLabel heading = new JLabel("- Apply For Student's Leave -");
         heading.setBounds(320, 30, 350, 50);

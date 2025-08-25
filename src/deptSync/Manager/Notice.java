@@ -18,7 +18,7 @@ public class Notice extends JFrame implements ActionListener {
         setSize(900, 700);
         setLocationRelativeTo(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setLayout(null);
+        setLayout(null);
 
         JLabel heading = new JLabel("- Create Notice -");
         heading.setBounds(340, 30, 400, 50);

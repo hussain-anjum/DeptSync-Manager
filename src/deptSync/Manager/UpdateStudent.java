@@ -17,7 +17,7 @@ public class UpdateStudent extends JFrame implements ActionListener {
         setSize(900, 700);
         setLocationRelativeTo(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setLayout(null);
+        setLayout(null);
 
         JLabel heading = new JLabel("- Update Student Details -");
         heading.setBounds(320, 30, 500, 50);
@@ -128,7 +128,7 @@ public class UpdateStudent extends JFrame implements ActionListener {
         textReg.setEditable(false);
         add(textReg);
 
-        JLabel lblRoll = new JLabel("Roll");
+        JLabel lblRoll = new JLabel("Roll*");
         lblRoll.setBounds(65, 370, 120, 30);
         lblRoll.setFont(new Font("Arial", Font.BOLD, 15));
         add(lblRoll);
@@ -136,6 +136,7 @@ public class UpdateStudent extends JFrame implements ActionListener {
         textRoll = new JTextField();
         textRoll.setBounds(200, 372, 200, 25);
         textRoll.setFont(new Font("Arial", Font.BOLD, 12));
+        textRoll.setEditable(false);
         add(textRoll);
 
         JLabel lblPermanent = new JLabel("Permanent Address*");

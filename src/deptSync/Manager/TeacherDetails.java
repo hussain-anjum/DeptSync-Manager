@@ -18,6 +18,7 @@ public class TeacherDetails extends JFrame implements ActionListener {
         setSize(1010, 700);
         setLocationRelativeTo(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setLayout(null);
 
         JLabel heading = new JLabel("- Teacher Details -");
         heading.setBounds(410, 30, 350, 50);

@@ -19,6 +19,7 @@ public class UpdateTeacher extends JFrame implements ActionListener {
         setSize(950, 700);
         setLocationRelativeTo(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
 
         JLabel heading = new JLabel("- Update Teacher Details -");
         heading.setBounds(320, 30, 500, 50);

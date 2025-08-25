@@ -20,7 +20,7 @@ public class AddTeacher extends JFrame implements ActionListener {
         setSize(900, 700);
         setLocationRelativeTo(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setLayout(null);
+        setLayout(null);
 
         JLabel heading = new JLabel("- Add New Teacher Details -");
         heading.setBounds(310, 30, 500, 50);

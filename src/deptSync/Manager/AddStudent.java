@@ -20,7 +20,7 @@ public class AddStudent extends JFrame implements ActionListener{
         setSize(900, 700);
         setLocationRelativeTo(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //setLayout(null); // Using null layout for precise positioning
+        setLayout(null);
 
         JLabel heading = new JLabel("- Add New Student Details -");
         heading.setBounds(310, 30, 500, 50);

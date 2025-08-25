@@ -36,6 +36,7 @@ public class TeacherLeave extends JFrame implements ActionListener {
         setSize(1000, 800);
         setLocationRelativeTo(null);
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
 
         JLabel heading = new JLabel("- Apply For Teacher's Leave -");
         heading.setBounds(370, 10, 400, 40);

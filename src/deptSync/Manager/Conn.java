@@ -2,12 +2,14 @@ package deptSync.Manager;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Conn {
-    Connection connection;
+    public Connection connection;
+    public Statement statement;
 
-    Statement statement;
     Conn(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -16,5 +18,10 @@ public class Conn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //For Login only
+    public PreparedStatement prepareStatement(String sql) throws SQLException {
+        return connection.prepareStatement(sql);
     }
 }
